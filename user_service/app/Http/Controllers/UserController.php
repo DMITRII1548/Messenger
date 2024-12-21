@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\User\UserResource;
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -16,17 +19,11 @@ class UserController extends Controller
     ) {
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-
+        //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreRequest $request): UserResource
     {
         $data = $request->validated();
@@ -36,27 +33,26 @@ class UserController extends Controller
         return UserResource::make($user);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(UpdateRequest $request, User $user): array
     {
-        //
+        $data = $request->validated();
+
+        $user = $this->userService->update($data, $user);
+
+        return UserResource::make($user)->resolve();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(User $user): Response
     {
-        //
+        $this->userService->destroy($user);
+
+        return response([
+            'destroyed' => true,
+        ], 200);
     }
 }
