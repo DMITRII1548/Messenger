@@ -33,9 +33,9 @@ class UserController extends Controller
         return UserResource::make($user);
     }
 
-    public function show(string $id)
+    public function show(User $user): array
     {
-        //
+        return UserResource::make($user)->resolve();
     }
 
     public function update(UpdateRequest $request, User $user): array

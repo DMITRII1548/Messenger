@@ -560,4 +560,24 @@ class UserTest extends TestCase
 
         $response->assertOk();
     }
+
+    public function test_successfully_getting_a_user(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->get("/api/users/{$user->id}");
+
+        $response->assertOk()
+            ->assertJsonStructure([
+                'name',
+                'email',
+                'status',
+                'image',
+            ])
+            ->assertJsonPath('name', $user->name)
+            ->assertJsonPath('email', $user->email)
+            ->assertJsonPath('status', $user->status)
+            ->assertJsonPath('image', $user->image);
+    }
+
 }
