@@ -6,8 +6,8 @@ namespace App\Models\Traits;
 
 trait HasImageSrcAttribute
 {
-    public function getImageSrcAttribute(): string
+    public function getImageSrcAttribute(): ?string
     {
-        return url('storage/' . $this->image);
+        return $this->image ? url('storage/' . $this->image) : null;
     }
 }

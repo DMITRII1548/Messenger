@@ -17,7 +17,7 @@ return new class () extends Migration {
             $table->string('name');
             $table->string('email')->unique();
             $table->string('status')->nullable();
-            $table->string('image')->nullbale();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
 
